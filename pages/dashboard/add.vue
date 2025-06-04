@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { toTypedSchema } from "@vee-validate/zod";
 
-import { LocationSchema } from "~/lib/db/schema";
+import { InsertLocation } from "~/lib/db/schema";
 
 const { handleSubmit, errors } = useForm({
-  validationSchema: toTypedSchema(LocationSchema),
+  validationSchema: toTypedSchema(InsertLocation),
 });
 
 const onSubmit = handleSubmit((values) => {
