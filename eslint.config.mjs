@@ -3,6 +3,8 @@ import antfu from "@antfu/eslint-config";
 // @ts-check
 import withNuxt from "./.nuxt/eslint.config.mjs";
 
+// TODO: add tailwindcss plugin
+
 export default withNuxt(antfu({
   type: "app",
   vue: true,
@@ -18,7 +20,7 @@ export default withNuxt(antfu({
   rules: {
     "vue/max-attributes-per-line": ["error", {
       singleline: {
-        max: 2,
+        max: 3,
       },
       multiline: {
         max: 1,
