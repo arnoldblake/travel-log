@@ -15,6 +15,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@indoorequal/vue-maplibre-gl": "^8.4.0",
     "@libsql/client": "^0.15.8",
     "@nuxt/eslint": "1.4.1",
     "@nuxt/icon": "1.13.0",
