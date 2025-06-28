@@ -1,15 +1,13 @@
-import z from "zod";
+import type { NominatimResult } from "~/lib/types";
 
+import { SearchSchema } from "~/lib/zod-schemas";
 import defineAuthenticatedEventHandler from "~/utils/define-authenticated-event-handler";
 import sendZodError from "~/utils/send-zod-error";
 
-const searchSchema = z.object({
-  q: z.string().min(1),
-});
-
 export default defineAuthenticatedEventHandler(
   defineCachedEventHandler(async (event) => {
-    const result = await getValidatedQuery(event, searchSchema.safeParse);
+    const result = await getValidatedQuery(event, SearchSchema.safeParse);
+
     if (!result.success) {
       return sendZodError(event, result.error);
     }
@@ -28,7 +26,7 @@ export default defineAuthenticatedEventHandler(
           statusMessage: "Failed to fetch search results",
         }));
       }
-      const results = await response.json();
+      const results = await response.json() as NominatimResult[];
       return results;
     }
     catch {
