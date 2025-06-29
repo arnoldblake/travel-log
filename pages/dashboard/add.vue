@@ -3,6 +3,8 @@ import type { FetchError } from "ofetch";
 
 import { toTypedSchema } from "@vee-validate/zod";
 
+import type { NominatimResult } from "~/lib/types";
+
 import { CENTER_USA } from "~/lib/constants";
 import { InsertLocation } from "~/lib/db/schema";
 
@@ -54,6 +56,18 @@ function formatNumber(value?: number) {
   if (!value)
     return 0;
   return value.toFixed(3);
+}
+
+function searchResultSelected(result: NominatimResult) {
+  setFieldValue("name", result.display_name);
+  mapStore.addedPoint = {
+    description: "",
+    id: 1,
+    name: "",
+    long: Number(result.lon),
+    lat: Number(result.lat),
+    centerMap: true,
+  };
 }
 
 onMounted(() => {
@@ -140,6 +154,6 @@ onBeforeRouteLeave(() => {
       </div>
     </form>
     <div class="divider" />
-    <AppPlaceSearch />
+    <AppPlaceSearch @result-selected="searchResultSelected" />
   </div>
 </template>
