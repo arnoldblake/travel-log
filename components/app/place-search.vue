@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import type { FetchError } from "ofetch";
+
 import type { NominatimResult } from "~/lib/types";
 
 import { SearchSchema } from "~/lib/zod-schemas";
+import getFetchErrorMessage from "~/utils/get-fetch-error-message";
 
 const emit = defineEmits<{
   resultSelected: [result: NominatimResult];
@@ -10,20 +13,22 @@ const emit = defineEmits<{
 const loading = ref(false);
 
 const form = useTemplateRef("form");
-const error = ref("");
-
+const errorMessage = ref("");
+const hasSearched = ref(false);
 const searchResults = ref<NominatimResult[]>([]);
 
 async function onSubmit(query: Record<string, string>) {
   try {
     loading.value = true;
+    hasSearched.value = true;
     const results = await $fetch("/api/search", {
       query,
     });
     searchResults.value = results;
   }
-  catch (error) {
-    error.value = "An error occurred while searching for locations.";
+  catch (e) {
+    const error = e as FetchError;
+    errorMessage.value = getFetchErrorMessage(error);
   }
   loading.value = false;
 }
@@ -39,13 +44,6 @@ function setLocation(result: NominatimResult) {
 
 <template>
   <div class="flex flex-col gap-2">
-    <div
-      v-if="error"
-      roles="alert"
-      class="alert alert-error"
-    >
-      {{ error }}
-    </div>
     <Form
       ref="form"
       v-slot="{ errors }"
@@ -77,6 +75,20 @@ function setLocation(result: NominatimResult) {
         </button>
       </div>
     </Form>
+    <div
+      v-if="errorMessage"
+      roles="alert"
+      class="alert alert-error"
+    >
+      {{ errorMessage }}
+    </div>
+    <div
+      v-if="hasSearched && !searchResults.length && !errorMessage"
+      roles="alert"
+      class="alert alert-warning"
+    >
+      No results found.
+    </div>
     <div v-if="loading" class="flex justify-center">
       <div class="loading loading-lg" />
     </div>

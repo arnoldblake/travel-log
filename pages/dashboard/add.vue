@@ -7,6 +7,7 @@ import type { NominatimResult } from "~/lib/types";
 
 import { CENTER_USA } from "~/lib/constants";
 import { InsertLocation } from "~/lib/db/schema";
+import getFetchErrorMessage from "~/utils/get-fetch-error-message";
 
 const { $csrfFetch } = useNuxtApp();
 const router = useRouter();
@@ -40,7 +41,7 @@ const onSubmit = handleSubmit(async (values) => {
     if (error.data?.data) {
       setErrors(error.data?.data);
     }
-    submitError.value = error.statusMessage || "An unknown error occurred.";
+    submitError.value = getFetchErrorMessage(error);
   }
   loading.value = false;
 });
