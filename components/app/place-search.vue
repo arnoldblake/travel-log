@@ -21,6 +21,8 @@ async function onSubmit(query: Record<string, string>) {
   try {
     loading.value = true;
     hasSearched.value = true;
+    searchResults.value = [];
+    errorMessage.value = "";
     const results = await $fetch("/api/search", {
       query,
     });
@@ -36,6 +38,8 @@ async function onSubmit(query: Record<string, string>) {
 function setLocation(result: NominatimResult) {
   emit("resultSelected", result);
   searchResults.value = [];
+  errorMessage.value = "";
+  hasSearched.value = false;
   if (form.value) {
     form.value.resetForm();
   }
@@ -76,14 +80,14 @@ function setLocation(result: NominatimResult) {
       </div>
     </Form>
     <div
-      v-if="errorMessage"
+      v-if="!loading && errorMessage"
       roles="alert"
       class="alert alert-error"
     >
       {{ errorMessage }}
     </div>
     <div
-      v-if="hasSearched && !searchResults.length && !errorMessage"
+      v-if="!loading && hasSearched && !searchResults.length && !errorMessage"
       roles="alert"
       class="alert alert-warning"
     >
@@ -92,7 +96,7 @@ function setLocation(result: NominatimResult) {
     <div v-if="loading" class="flex justify-center">
       <div class="loading loading-lg" />
     </div>
-    <div class="flex flex-col gap-2 overflow-auto max-h-72 mt-2">
+    <div class="flex flex-col gap-2 overflow-auto max-h-60 mt-2">
       <div
         v-for="result in searchResults"
         :key="result.place_id"
@@ -103,7 +107,7 @@ function setLocation(result: NominatimResult) {
             {{ result.display_name }}
           </h4>
           <div class="card-actions justify-end">
-            <button class="btn btn-sm btn-primary" @click="setLocation(result)">
+            <button class="btn btn-sm btn-warning" @click="setLocation(result)">
               Set Location
               <Icon name="tabler:map-pin-plus" size="14" />
             </button>

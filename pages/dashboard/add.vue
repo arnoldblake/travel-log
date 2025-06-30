@@ -7,7 +7,6 @@ import type { NominatimResult } from "~/lib/types";
 
 import { CENTER_USA } from "~/lib/constants";
 import { InsertLocation } from "~/lib/db/schema";
-import getFetchErrorMessage from "~/utils/get-fetch-error-message";
 
 const { $csrfFetch } = useNuxtApp();
 const router = useRouter();
@@ -125,10 +124,15 @@ onBeforeRouteLeave(() => {
         :error="errors.description"
         :disabled="loading"
       />
-      <p>Drag the <Icon name="tabler:map-pin-filled" class="text-warning" /> to the desired location.</p>
       <p class="text-xs text-gray-400">
         Current location: {{ formatNumber(controlledValues.lat) }}, {{ formatNumber(controlledValues.long) }}
       </p>
+      <p>To Set the location:</p>
+      <ul class="list-disc ml-4 text-sm">
+        <li>Drag the <Icon name="tabler:map-pin-filled" class="text-warning" /> to the desired location.</li>
+        <li>Double click on your desired location.</li>
+        <li>Search for a location below.</li>
+      </ul>
       <div class="flex justify-end gap-2">
         <button
           :disabled="loading"
