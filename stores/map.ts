@@ -1,3 +1,5 @@
+import type { LngLatBounds } from "maplibre-gl";
+
 import type { MapPoint } from "~/lib/types";
 
 export const useMapStore = defineStore("useMapStore", () => {

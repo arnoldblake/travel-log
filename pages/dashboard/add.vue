@@ -7,6 +7,7 @@ import type { NominatimResult } from "~/lib/types";
 
 import { CENTER_USA } from "~/lib/constants";
 import { InsertLocation } from "~/lib/db/schema";
+import getFetchErrorMessage from "~/utils/get-fetch-error-message";
 
 const { $csrfFetch } = useNuxtApp();
 const router = useRouter();
