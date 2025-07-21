@@ -24,6 +24,15 @@ effect(() => {
       <p class="text-sm">
         {{ location.description }}
       </p>
+      <div v-if="!location.locationLogs.length" class="mt-4">
+        <p class="text-sm italic">
+          Add a location log to get started.
+        </p>
+        <button class="btn btn-primary mt-2">
+          Add location log
+          <Icon name="tabler:map-pin-plus" size="24" />
+        </button>
+      </div>
     </div>
     <div v-if="error && status !== 'pending'" class="text-error">
       <p>Error loading location: {{ error.statusMessage }}</p>

@@ -1,3 +1,7 @@
+import type { MapPoint } from "~/lib/types";
+
+import type { sidebarItem } from "./sidebar";
+
 import { useMapStore } from "./map";
 import { useSidebarStore } from "./sidebar";
 
@@ -11,14 +15,23 @@ export const useLocationStore = defineStore("useLocationStore", () => {
 
   effect(() => {
     if (data.value) {
-      sidebarStore.sidebarItems = data.value.map(location => ({
-        id: `location-${location.id}`,
-        label: location.name,
-        icon: "tabler:map-pin-filled",
-        to: { name: "dashboard-location-slug", params: { slug: location.slug } },
-        location,
-      }));
-      mapStore.mapPoints = data.value;
+      const mapPoints: MapPoint[] = [];
+      const sidebarItems: sidebarItem[] = [];
+
+      data.value.forEach((location) => {
+        const mapPoint = createMapPointFromLocation(location);
+        mapPoints.push(mapPoint);
+        sidebarItems.push({
+          id: `location-${location.id}`,
+          label: location.name,
+          icon: "tabler:map-pin-filled",
+          to: { name: "dashboard-location-slug", params: { slug: location.slug } },
+          mapPoint,
+        });
+        mapPoints.push(mapPoint);
+      });
+      sidebarStore.sidebarItems = sidebarItems;
+      mapStore.mapPoints = mapPoints;
     }
     sidebarStore.loading = status.value === "pending";
   });
