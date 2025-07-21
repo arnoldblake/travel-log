@@ -15,7 +15,7 @@ const route = useRoute();
 
 <template>
   <div
-    class="tooltip-right flex flex-col"
+    class="tooltip-right flex flex-col mt-4"
     :data-tip="props.label"
     :class="{ tooltip: !showLabel }"
   >

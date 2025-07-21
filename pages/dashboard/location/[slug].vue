@@ -1,24 +1,23 @@
-<script lang="js" setup>
-const route = useRoute();
-const mapStore = useMapStore();
+<script lang="ts" setup>
+const locationStore = useLocationStore();
+const {
+  currentLocation: location,
+  currentLocationStatus: status,
+  currentLocationError: error,
+} = storeToRefs(locationStore);
 
-const { slug } = route.params;
-const { data: location, status, error } = await useFetch(`/api/locations/${slug}`, { lazy: true });
-
-effect(() => {
-  if (location.value) {
-    mapStore.mapPoints = [location.value];
-  }
+onMounted(() => {
+  locationStore.refreshCurrentLocation();
 });
 </script>
 
 <template>
   <div class="p-4 min-h-64">
     <div v-if="status === 'pending'">
-      <span class="loading loading-spinner loading-xl" />
+      <div class="loading" />
     </div>
-    <div v-if="location && status === 'success'">
-      <h2 class="text-lx">
+    <div v-if="location && status !== 'pending'">
+      <h2 class="text-xl">
         {{ location.name }}
       </h2>
       <p class="text-sm">
@@ -34,8 +33,10 @@ effect(() => {
         </button>
       </div>
     </div>
-    <div v-if="error && status !== 'pending'" class="text-error">
-      <p>Error loading location: {{ error.statusMessage }}</p>
+    <div v-if="error && status !== 'pending'" class="alert alert-error">
+      <h2 class="text-lg">
+        {{ error.statusMessage }}
+      </h2>
     </div>
   </div>
 </template>

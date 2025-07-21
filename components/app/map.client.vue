@@ -3,12 +3,10 @@ import type { MglEvent } from "@indoorequal/vue-maplibre-gl";
 import type { LngLat } from "maplibre-gl";
 
 import { CENTER_USA } from "~/lib/constants";
-import { useMapStore } from "~/stores/map";
 
 const colorMode = useColorMode();
 const mapStore = useMapStore();
 
-// const style = "https://tiles.openfreemap.org/styles/liberty";
 const style = computed(() =>
   colorMode.value === "dark"
     ? "/styles/dark.json"
@@ -71,7 +69,8 @@ onMounted(() => {
         <div
           class="tooltip tooltip-top hover:cursor-pointer"
           :data-tip="point.name"
-          :class="{ 'tooltip-open': isPointSelected(point, mapStore.selectedPoint) }"
+          :class="{
+            'tooltip-open': isPointSelected(point, mapStore.selectedPoint) }"
           @mouseenter="mapStore.selectPointWithoutFlyTo(point)"
           @mouseleave="mapStore.selectPointWithoutFlyTo(null)"
         >
@@ -83,7 +82,9 @@ onMounted(() => {
         </div>
       </template>
       <MglPopup>
-        <h3> {{ point.name }}</h3>
+        <h3 class="text-xl">
+          {{ point.name }}
+        </h3>
         <p v-if="point.description">
           {{ point.description }}
         </p>

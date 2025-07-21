@@ -36,7 +36,7 @@ export async function findLocationByName(existing: InsertLocation, userId: numbe
 }
 
 export async function findLocationBySlug(slug: string) {
-  return await db.query.location.findFirst({
+  return db.query.location.findFirst({
     where: eq(location.slug, slug),
   });
 }
