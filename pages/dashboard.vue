@@ -92,7 +92,7 @@ function toggleSidebar() {
           size="32"
         />
       </div>
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-1">
         <SidebarButton
           v-for="item in sidebarStore.sidebarTopItems"
           :key="item.id"
@@ -102,11 +102,11 @@ function toggleSidebar() {
           :href="item.href"
           :to="item.to"
         />
-        <div v-if="sidebarStore.loading || sidebarStore.sidebarItems.length" class="divider" />
+        <div v-if="sidebarStore.loading || sidebarStore.sidebarItems.length" class="divider my-0" />
         <div v-if="sidebarStore.loading" class="px-4">
           <div class="skeleton h-4 w-full" />
         </div>
-        <div v-if="!sidebarStore.loading && sidebarStore.sidebarItems.length" class="flex flex-col">
+        <div v-if="!sidebarStore.loading && sidebarStore.sidebarItems.length" class="flex flex-col gap-1">
           <SidebarButton
             v-for="item in sidebarStore.sidebarItems"
             :key="item.id"
@@ -119,7 +119,7 @@ function toggleSidebar() {
             @mouseleave="mapStore.selectedPoint = null"
           />
         </div>
-        <div class="divider" />
+        <div class="divider mt-4 mb-0" />
         <SidebarButton
           :show-label="isSidebarOpen"
           label="Sign Out"
