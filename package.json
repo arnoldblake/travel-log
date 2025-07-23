@@ -45,6 +45,7 @@
   "devDependencies": {
     "@antfu/eslint-config": "^4.13.2",
     "@iconify-json/tabler": "^1.2.18",
+    "@playwright/test": "^1.54.1",
     "@types/slug": "^5.0.9",
     "daisyui": "^5.0.43",
     "drizzle-kit": "^0.31.1",
