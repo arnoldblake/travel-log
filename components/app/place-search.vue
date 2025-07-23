@@ -4,7 +4,6 @@ import type { FetchError } from "ofetch";
 import type { NominatimResult } from "~/lib/types";
 
 import { SearchSchema } from "~/lib/zod-schemas";
-import getFetchErrorMessage from "~/utils/get-fetch-error-message";
 
 const emit = defineEmits<{
   resultSelected: [result: NominatimResult];
@@ -81,14 +80,14 @@ function setLocation(result: NominatimResult) {
     </Form>
     <div
       v-if="!loading && errorMessage"
-      roles="alert"
+      role="alert"
       class="alert alert-error"
     >
       {{ errorMessage }}
     </div>
     <div
       v-if="!loading && hasSearched && !searchResults.length && !errorMessage"
-      roles="alert"
+      role="alert"
       class="alert alert-warning"
     >
       No results found.

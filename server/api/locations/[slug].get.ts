@@ -6,8 +6,8 @@ export default defineAuthenticatedEventHandler(async (event) => {
   const location = await findLocation(slug, event.context.user.id);
   if (!location) {
     return sendError(event, createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
+      statusCode: 404,
+      statusMessage: "Location not found",
     }));
   }
   return location;
