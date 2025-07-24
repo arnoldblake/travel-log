@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { CURRENT_LOCATION_PAGES, LOCATION_PAGES } from "~/lib/constants";
+
 const isSidebarOpen = ref(true);
 const route = useRoute();
 const sidebarStore = useSidebarStore();
@@ -14,7 +16,7 @@ onMounted(() => {
 });
 
 effect(() => {
-  if (route.name === "dashboard") {
+  if (LOCATION_PAGES.has(route.name?.toString() || "")) {
     sidebarStore.sidebarTopItems = [{
       id: "link-dashboard",
       label: "Locations",
@@ -27,7 +29,7 @@ effect(() => {
       icon: "tabler:circle-plus-filled",
     }];
   }
-  else if (route.name === "dashboard-location-slug") {
+  else if (CURRENT_LOCATION_PAGES.has(route.name?.toString() || "")) {
     sidebarStore.sidebarTopItems = [{
       id: "link-dashboard",
       label: "Back to Locations",
